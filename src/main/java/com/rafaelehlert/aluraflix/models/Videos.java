@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,6 +18,9 @@ public class Videos {
     private String titulo;
     private String descricao;
     private String url;
+    @ManyToOne
+    @JoinColumn(name = "categorias_id")
+    private Categorias categoriaId;
 
     public Videos(Long id, String titulo, String descricao, String url) {
         this.id = id;
