@@ -21,6 +21,18 @@ public class Categorias {
     private String cor;
     @OneToMany(mappedBy = "videos")
     private List<Videos> videos = new ArrayList<>();
+
+    public Categorias(Long id, String titulo, String cor) {
+        this.id = id;
+        this.titulo = titulo;
+        this.cor = cor;
+    }
+
+    public Categorias() {
+    }
+
+
+
     public Long getId() {
         return id;
     }
