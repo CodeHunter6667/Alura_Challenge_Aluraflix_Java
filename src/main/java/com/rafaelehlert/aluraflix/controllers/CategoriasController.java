@@ -2,6 +2,7 @@ package com.rafaelehlert.aluraflix.controllers;
 
 import java.net.URI;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriasController {
+    @Autowired
     private CategoriasServices services;
 
     @GetMapping(value = "/{id}")
@@ -37,7 +39,7 @@ public class CategoriasController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoriasDTO> inser(@Valid @RequestBody CategoriasDTO dto) {
+    public ResponseEntity<CategoriasDTO> insert(@Valid @RequestBody CategoriasDTO dto) {
         dto = services.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.id()).toUri();

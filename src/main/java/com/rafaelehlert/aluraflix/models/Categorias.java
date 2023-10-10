@@ -19,7 +19,7 @@ public class Categorias {
     private Long id;
     private String titulo;
     private String cor;
-    @OneToMany(mappedBy = "videos")
+    @OneToMany(mappedBy = "categorias")
     private List<Videos> videos = new ArrayList<>();
 
     public Categorias(Long id, String titulo, String cor) {
@@ -54,5 +54,51 @@ public class Categorias {
 
     public List<Videos> getVideos() {
         return this.videos;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + 
+                "id= " + id + "'" +
+                " titulo= " + titulo + "'" +
+                " cor= " + cor + "'" +
+                "}";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
+        result = prime * result + ((cor == null) ? 0 : cor.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Categorias other = (Categorias) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (titulo == null) {
+            if (other.titulo != null)
+                return false;
+        } else if (!titulo.equals(other.titulo))
+            return false;
+        if (cor == null) {
+            if (other.cor != null)
+                return false;
+        } else if (!cor.equals(other.cor))
+            return false;
+        return true;
     }
 }
