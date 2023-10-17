@@ -43,7 +43,7 @@ public class VideosController {
     public ResponseEntity<VideosDTO> insert(@Valid @RequestBody VideosDTO dto) {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(dto.id()).toUri();
+                .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
 

@@ -3,7 +3,11 @@ package com.rafaelehlert.aluraflix.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,7 +23,10 @@ public class Categorias {
     private Long id;
     private String titulo;
     private String cor;
-    @OneToMany(mappedBy = "categorias")
+    @OneToMany( fetch = FetchType.EAGER,
+    mappedBy = "categoria",
+            cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Videos> videos = new ArrayList<>();
 
     public Categorias(Long id, String titulo, String cor) {
@@ -30,8 +37,6 @@ public class Categorias {
 
     public Categorias() {
     }
-
-
 
     public Long getId() {
         return id;

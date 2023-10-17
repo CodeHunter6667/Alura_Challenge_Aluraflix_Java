@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rafaelehlert.aluraflix.dto.VideosDTO;
 import com.rafaelehlert.aluraflix.models.Videos;
+import com.rafaelehlert.aluraflix.repositories.CategoriasRepository;
 import com.rafaelehlert.aluraflix.repositories.VideosRepository;
 import com.rafaelehlert.aluraflix.services.exceptions.DatabaseException;
 import com.rafaelehlert.aluraflix.services.exceptions.ResourceNotFoundException;
@@ -23,25 +24,39 @@ public class VideosService {
     @Autowired
     private VideosRepository repository;
 
+    @Autowired
+    private CategoriasRepository categoriasRepository;
+
     @Transactional(readOnly = true)
     public VideosDTO findById(Long id) {
         Videos videos = repository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Recurso não encontrado"));
-        return new VideosDTO(videos.getId(), videos.getTitulo(), videos.getDescricao(), videos.getUrl());
+        return new VideosDTO(videos);
     }
 
     @Transactional(readOnly = true)
     public Page<VideosDTO> findAll(Pageable pageable) {
         Page<Videos> result = repository.findAll(pageable);
-        return result.map(x -> new VideosDTO(x.getId(), x.getTitulo(), x.getDescricao(), x.getUrl()));
+        return result.map(x -> new VideosDTO(x));
     }
 
     @Transactional
     public VideosDTO insert(VideosDTO dto) {
         Videos entity = new Videos();
-        copyDtoToEntity(dto, entity);
-        entity = repository.save(entity);
-        return new VideosDTO(entity.getId(), entity.getTitulo(), entity.getDescricao(), entity.getUrl());
+        if (dto.getCategoriaId() == null) {
+            categoriasRepository.findById(1L).map(categoria -> {
+            dto.setCategorias(categoria);
+            copyDtoToEntity(dto, entity);
+            return repository.save(entity);
+        }).orElseThrow(() ->  new ResourceNotFoundException("Recusro não encontrado"));
+        } else {
+            categoriasRepository.findById(dto.getCategoriaId()).map(categoria -> {
+                dto.setCategorias(categoria);
+                copyDtoToEntity(dto, entity);
+                return repository.save(entity);
+            }).orElseThrow(() -> new ResourceNotFoundException("Recusro não encontrado"));
+        }
+        return new VideosDTO(entity);
     }
 
     @Transactional
@@ -50,7 +65,7 @@ public class VideosService {
             Videos entity = repository.getReferenceById(id);
             copyDtoToEntity(dto, entity);
             entity = repository.save(entity);
-            return new VideosDTO(entity.getId(), entity.getTitulo(), entity.getDescricao(), entity.getUrl());
+            return new VideosDTO(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado");
         }
@@ -67,11 +82,12 @@ public class VideosService {
             throw new DatabaseException("Falha de integridade relacional");
         }
     }
-
+    
     private void copyDtoToEntity(VideosDTO dto, Videos entity) {
-        entity.setId(dto.id());
-        entity.setTitulo(dto.titulo());
-        entity.setDescricao(dto.descricao());
-        entity.setUrl(dto.url());
-    }
+        entity.setId(dto.getId());
+        entity.setTitulo(dto.getTitulo());
+        entity.setDescricao(dto.getDescricao());
+        entity.setUrl(dto.getUrl());
+        entity.setCategoria(dto.getCategorias());
+        }
 }

@@ -1,6 +1,7 @@
 package com.rafaelehlert.aluraflix.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -10,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_videos")
-public class Videos {
+public class Videos{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,15 +19,23 @@ public class Videos {
     private String titulo;
     private String descricao;
     private String url;
-    @ManyToOne
-    @JoinColumn(name = "categorias_id")
-    private Categorias categorias;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "categorias_id", nullable = false)
+    private Categorias categoria;
 
     public Videos(Long id, String titulo, String descricao, String url) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.url = url;
+    }
+
+    public Categorias getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categorias categoria) {
+        this.categoria = categoria;
     }
 
     public Videos() {
@@ -64,7 +73,9 @@ public class Videos {
                 "id= " + id + "'" +
                 " titulo= " + titulo + "'" +
                 " descricao= " + descricao + "'" +
-                " url=" + url + "}";
+                " url=" + url +
+                " categoria= " + categoria +
+                "}";
     }
 
     @Override
@@ -75,6 +86,7 @@ public class Videos {
         result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
         result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
         result = prime * result + ((url == null) ? 0 : url.hashCode());
+        result = prime * result + ((categoria == null) ? 0 : categoria.hashCode());
         return result;
     }
 
@@ -107,6 +119,13 @@ public class Videos {
                 return false;
         } else if (!url.equals(other.url))
             return false;
+        if (categoria == null) {
+            if (other.categoria != null)
+                return false;
+        } else if (!categoria.equals(other.categoria))
+            return false;
         return true;
-    }    
+    }
+
+    
 }
