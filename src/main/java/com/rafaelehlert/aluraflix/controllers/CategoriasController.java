@@ -2,6 +2,7 @@ package com.rafaelehlert.aluraflix.controllers;
 
 import java.net.URI;
 
+import com.rafaelehlert.aluraflix.dto.CategoriaMinDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,12 @@ public class CategoriasController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<CategoriasDTO> findById(@PathVariable Long id) {
         CategoriasDTO dto = services.findById(id);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping(value = "/{id}/videos")
+    public ResponseEntity<Page<CategoriaMinDTO>> findWithVideos(@PathVariable Long id, Pageable pageable){
+        Page<CategoriaMinDTO> dto = services.searchWithVideos(id, pageable);
         return ResponseEntity.ok(dto);
     }
 

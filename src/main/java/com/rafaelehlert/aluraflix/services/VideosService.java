@@ -1,5 +1,6 @@
 package com.rafaelehlert.aluraflix.services;
 
+import com.rafaelehlert.aluraflix.dto.VideosMinDTO;
 import com.rafaelehlert.aluraflix.models.Categorias;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -36,6 +37,12 @@ public class VideosService {
     public Page<VideosDTO> searchAll(Pageable pageable) {
         Page<Videos> result = repository.searchAll(pageable);
         return result.map(x -> new VideosDTO(x));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<VideosMinDTO> serachByName(String titulo, Pageable pageable){
+        Page<Videos> result = repository.searchByName(titulo, pageable);
+        return result.map(x -> new VideosMinDTO(x));
     }
 
     @Transactional
