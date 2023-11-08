@@ -23,8 +23,7 @@ public class Categorias {
     private Long id;
     private String titulo;
     private String cor;
-    @OneToMany( fetch = FetchType.EAGER,
-    mappedBy = "categoria",
+    @OneToMany(mappedBy = "categoria",
             cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Videos> videos = new ArrayList<>();

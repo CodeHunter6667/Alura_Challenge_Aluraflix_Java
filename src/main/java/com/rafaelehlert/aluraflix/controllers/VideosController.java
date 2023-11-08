@@ -35,7 +35,7 @@ public class VideosController {
 
     @GetMapping
     public ResponseEntity<Page<VideosDTO>> findAll(Pageable pageable) {
-        Page<VideosDTO> dto = service.findAll(pageable);
+        Page<VideosDTO> dto = service.searchAll(pageable);
         return ResponseEntity.ok(dto);
     }
 

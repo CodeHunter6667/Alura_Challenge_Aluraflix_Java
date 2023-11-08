@@ -9,14 +9,13 @@ public class VideosDTO {
     private String descricao;
     private String url;
     private Long categoriaId;
-    private Categorias categorias;
 
-    public VideosDTO(Long id, String titulo, String descricao, String url, Categorias categorias) {
+    public VideosDTO(Long id, String titulo, String descricao, String url, Long categoriaId) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.url = url;
-        this.categorias = categorias;
+        this.categoriaId = categoriaId;
     }
 
     public VideosDTO(Videos entity) {
@@ -24,47 +23,29 @@ public class VideosDTO {
         titulo = entity.getTitulo();
         descricao = entity.getDescricao();
         url = entity.getUrl();
-        categorias = entity.getCategoria();
+        categoriaId = entity.getCategoria().getId();
     }
 
     public Long getId() {
         return id;
     }
-    public void setId(Long id) {
-        this.id = id;
-    }
+
     public String getTitulo() {
         return titulo;
     }
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+
     public String getDescricao() {
         return descricao;
     }
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+
     public String getUrl() {
         return url;
-    }
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public Long getCategoriaId() {
         return categoriaId;
     }
 
-    public void setCategoriaId(Long categoriaId) {
-        this.categoriaId = categoriaId;
-    }
-
-    public Categorias getCategorias() {
-        return categorias;
-    }
-
-    public void setCategorias(Categorias categorias) {
-        this.categorias = categorias;
-    }
 }
+
+

@@ -19,7 +19,7 @@ public class Videos{
     private String titulo;
     private String descricao;
     private String url;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "categorias_id", nullable = false)
     private Categorias categoria;
 

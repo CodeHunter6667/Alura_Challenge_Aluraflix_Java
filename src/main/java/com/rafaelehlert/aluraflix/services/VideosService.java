@@ -1,5 +1,6 @@
 package com.rafaelehlert.aluraflix.services;
 
+import com.rafaelehlert.aluraflix.models.Categorias;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -24,9 +25,6 @@ public class VideosService {
     @Autowired
     private VideosRepository repository;
 
-    @Autowired
-    private CategoriasRepository categoriasRepository;
-
     @Transactional(readOnly = true)
     public VideosDTO findById(Long id) {
         Videos videos = repository.findById(id).orElseThrow(
@@ -35,27 +33,22 @@ public class VideosService {
     }
 
     @Transactional(readOnly = true)
-    public Page<VideosDTO> findAll(Pageable pageable) {
-        Page<Videos> result = repository.findAll(pageable);
+    public Page<VideosDTO> searchAll(Pageable pageable) {
+        Page<Videos> result = repository.searchAll(pageable);
         return result.map(x -> new VideosDTO(x));
     }
 
     @Transactional
     public VideosDTO insert(VideosDTO dto) {
         Videos entity = new Videos();
-        if (dto.getCategoriaId() == null) {
-            categoriasRepository.findById(1L).map(categoria -> {
-            dto.setCategorias(categoria);
-            copyDtoToEntity(dto, entity);
-            return repository.save(entity);
-        }).orElseThrow(() ->  new ResourceNotFoundException("Recusro não encontrado"));
-        } else {
-            categoriasRepository.findById(dto.getCategoriaId()).map(categoria -> {
-                dto.setCategorias(categoria);
-                copyDtoToEntity(dto, entity);
-                return repository.save(entity);
-            }).orElseThrow(() -> new ResourceNotFoundException("Recusro não encontrado"));
+        copyDtoToEntity(dto, entity);
+        Categorias cat = new Categorias();
+        cat.setId(dto.getCategoriaId());
+        if (cat.getId() == null){
+            cat.setId(1L);
         }
+        entity.setCategoria(cat);
+        repository.save(entity);
         return new VideosDTO(entity);
     }
 
@@ -88,6 +81,5 @@ public class VideosService {
         entity.setTitulo(dto.getTitulo());
         entity.setDescricao(dto.getDescricao());
         entity.setUrl(dto.getUrl());
-        entity.setCategoria(dto.getCategorias());
         }
 }
