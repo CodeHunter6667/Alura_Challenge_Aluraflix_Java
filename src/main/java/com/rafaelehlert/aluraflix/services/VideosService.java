@@ -1,7 +1,5 @@
 package com.rafaelehlert.aluraflix.services;
 
-import com.rafaelehlert.aluraflix.dto.VideosMinDTO;
-import com.rafaelehlert.aluraflix.models.Categorias;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -11,8 +9,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rafaelehlert.aluraflix.dto.VideosDTO;
+import com.rafaelehlert.aluraflix.dto.VideosMinDTO;
+import com.rafaelehlert.aluraflix.models.Categorias;
 import com.rafaelehlert.aluraflix.models.Videos;
-import com.rafaelehlert.aluraflix.repositories.CategoriasRepository;
 import com.rafaelehlert.aluraflix.repositories.VideosRepository;
 import com.rafaelehlert.aluraflix.services.exceptions.DatabaseException;
 import com.rafaelehlert.aluraflix.services.exceptions.ResourceNotFoundException;

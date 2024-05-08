@@ -1,6 +1,5 @@
 package com.rafaelehlert.aluraflix.dto;
 
-import com.rafaelehlert.aluraflix.models.Categorias;
 import com.rafaelehlert.aluraflix.models.Videos;
 
 public class VideosDTO {
