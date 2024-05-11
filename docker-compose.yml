@@ -1,0 +1,10 @@
+version: "25"
+
+services:
+  database:
+    image: postgres:latest
+    container_name: aluraflix-java
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
