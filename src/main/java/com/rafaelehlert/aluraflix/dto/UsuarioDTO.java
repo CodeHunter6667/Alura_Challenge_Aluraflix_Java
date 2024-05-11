@@ -44,7 +44,7 @@ public class UsuarioDTO{
 	public String getPassword() {
 		return password;
 	}
-	public String getRoles() {
+	public String getRole() {
 		return role;
 	}
 }
