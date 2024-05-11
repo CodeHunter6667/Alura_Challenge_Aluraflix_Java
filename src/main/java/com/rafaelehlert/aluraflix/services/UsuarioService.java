@@ -23,7 +23,7 @@ public class UsuarioService {
 	
 	@Transactional
 	public UsuarioDTO insert(UsuarioDTO dto) {
-		Roles role = rolesRepository.findByRolesName(dto.getRoles());
+		Roles role = rolesRepository.searchByNomeRole(dto.getRole());
 		Usuario usuario = new Usuario();
 		copyDtoToEntity(dto, usuario);
 		usuario.setRoles(role);
