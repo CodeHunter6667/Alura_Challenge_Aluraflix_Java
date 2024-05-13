@@ -5,6 +5,7 @@ import java.net.URI;
 import com.rafaelehlert.aluraflix.dto.VideosMinDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,15 @@ public class VideosController {
     public ResponseEntity<Page<VideosMinDTO>> findByName(@RequestParam(name = "name", defaultValue = "") String name,
                                                          @PageableDefault(size = 5) Pageable pageable){
         Page<VideosMinDTO> dto = service.serachByName(name, pageable);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping(value = "/free")
+    public ResponseEntity<Page<VideosDTO>> findFree(){
+        int tamanhoFixo = 5;
+        Pageable paginacaoFixa = PageRequest.of(0, tamanhoFixo);
+
+        Page<VideosDTO> dto = service.searchAll(paginacaoFixa);
         return ResponseEntity.ok(dto);
     }
 
