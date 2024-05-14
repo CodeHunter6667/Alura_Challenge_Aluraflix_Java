@@ -1,8 +1,10 @@
 package com.rafaelehlert.aluraflix.controllers;
 
-import java.net.URI;
-
 import com.rafaelehlert.aluraflix.dto.CategoriaMinDTO;
+import com.rafaelehlert.aluraflix.dto.CategoriasDTO;
+import com.rafaelehlert.aluraflix.services.CategoriasServices;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,13 +14,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.rafaelehlert.aluraflix.dto.CategoriasDTO;
-import com.rafaelehlert.aluraflix.services.CategoriasServices;
-
-import jakarta.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/categorias")
+@SecurityRequirement(name = "bearer-key")
 public class CategoriasController {
     @Autowired
     private CategoriasServices services;
